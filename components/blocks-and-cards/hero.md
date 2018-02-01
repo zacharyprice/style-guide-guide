@@ -5,8 +5,8 @@ subgroup: blocks-and-cards
 permalink: /components/blocks-and-cards/hero.html
 
 title: Hero
+status: In Progress
 description: Large-format unit to promote content with a high-impact image
-
 
 variations:
 - title: Default hero
@@ -54,4 +54,8 @@ classes:
   recommended: yes
   description: Apply to the card's description text inside the card body. The recommended element for this class is `<p>`.
 
+fine-print:
+- version: 0.3
+  update: April 27, 2017
+  owner: Jane Doe
 ---

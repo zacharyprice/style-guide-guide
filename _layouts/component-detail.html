@@ -31,6 +31,13 @@ layout: default
 						{% if variation.description %}<div>{{ variation.description | markdownify }} </div>{% endif %}
 					</header>
 
+					{% if variation.codepenUser and variation.codepenID %}
+					<p data-height="265" data-theme-id="0" data-slug-hash="{{ variation.codepenID }}" data-default-tab="js,result" data-user="{{ variation.codepenUser }}" data-embed-version="2" data-pen-title="{{ variation.codepenID }}" class="codepen">See the Pen <a href="https://codepen.io/{{ variation.codepenUser }}/pen/EbgJYG/">{{ variation.codepenID }}</a> (<a href="https://codepen.io/{{ variation.codepenUser }}">@{{ variation.codepenID }}</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+					<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+					{% endif %}
+
+					{% if variation.includeClassification and variation.includeCategory and variation.includeName %}
+
 					{% if variation.includeClassification == 'atoms' %}
 					{% assign atomicNumber = "00" %}
 					{% elsif variation.includeClassification == 'molecules' %}
@@ -42,6 +49,7 @@ layout: default
 					{% capture componentString %}{{ atomicNumber }}-{{ variation.includeClassification }}-{{ variation.includeCategory }}-{{ variation.includeName }}{% endcapture %}
 
 					{% capture path %}/patterns/{{ componentString }}/{{ componentString }}.rendered.html{% endcapture %}
+
 					<div class="iffframe">
 
 						<iframe class="iffframe__iframe" frameBorder="0" width="100%" height="100%" src="{{ path | prepend: site.baseurl }}"></iframe>
@@ -49,6 +57,7 @@ layout: default
 						<div class="iffframe__handle"></div>
 
 					</div><!--end iffframe-->
+					{% endif %}
 
 				</section><!--end section-->
 
@@ -62,6 +71,8 @@ layout: default
 	<ul class="c-tabs-list js-tabs-list">
 		{% for variation in page.variations %}
 
+		{% if variation.includeClassification and variation.includeCategory and variation.includeName %}
+
 			{% if variation.includeClassification == 'atoms' %}
 			{% assign atomicNumber = "00" %}
 			{% elsif variation.includeClassification == 'molecules' %}
@@ -74,63 +85,67 @@ layout: default
 
 			{% capture path %}/patterns/{{ componentString }}/{{ componentString }}.rendered.html{% endcapture %}
 
-			<li class="c-tabs-list__item js-tabs-list-item" data-code-tabs="tab-{{ variation.title | downcase | replace: ' ', '-' }}">
+		{% endif %}
+		<li class="c-tabs-list__item js-tabs-list-item" data-code-tabs="tab-{{ variation.title | downcase | replace: ' ', '-' }}">
 
-				<div class="c-tabs test-tabs  js-tabs">
+			{% if variation.includeClassification and variation.includeCategory and variation.includeName %}
+			<div class="c-tabs test-tabs  js-tabs">
 
-					<ul class="c-tabs__list">
+				<ul class="c-tabs__list">
 
-						<li class="c-tabs__item">
-							<a href="#html-{{ forloop.index }}" class="c-tabs__link js-tab">HTML</a>
-						</li><!-- end c-tabs__item -->
+					<li class="c-tabs__item">
+						<a href="#html-{{ forloop.index }}" class="c-tabs__link js-tab">HTML</a>
+					</li><!-- end c-tabs__item -->
 
-						<li class="c-tabs__item">
-							<a href="#angular-{{ forloop.index }}" class="c-tabs__link js-tab">Angular</a>
-						</li><!-- end c-tabs__item -->
+					<li class="c-tabs__item">
+						<a href="#angular-{{ forloop.index }}" class="c-tabs__link js-tab">Angular</a>
+					</li><!-- end c-tabs__item -->
 
-						<li class="c-tabs__item">
-							<a href="#react-{{ forloop.index }}" class="c-tabs__link js-tab">React</a>
-						</li><!-- end c-tabs__item -->
+					<li class="c-tabs__item">
+						<a href="#react-{{ forloop.index }}" class="c-tabs__link js-tab">React</a>
+					</li><!-- end c-tabs__item -->
 
-					</ul><!-- end c-tabs__list -->
+				</ul><!-- end c-tabs__list -->
 
-					<div class="c-tabs__body ">
+				<div class="c-tabs__body ">
 
-						<div class="c-tabs__panel js-tabs-panel" id="html-{{ forloop.index }}">
+					<div class="c-tabs__panel js-tabs-panel" id="html-{{ forloop.index }}">
 
-							{% capture markupOnlyPath %}/patterns/{{ componentString }}/{{ componentString }}.markup-only.html{% endcapture %}
+						{% capture markupOnlyPath %}/patterns/{{ componentString }}/{{ componentString }}.markup-only.html{% endcapture %}
 
-							<div class="pattern-code">
-								<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
-								<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">{% highlight liquid %}{% include {{ markupOnlyPath }} %}{% endhighlight %}</code></pre>
-							</div>
+						<div class="pattern-code">
+							<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
+							<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">{% highlight liquid %}{% include {{ markupOnlyPath }} %}{% endhighlight %}</code></pre>
+						</div>
 
-						</div><!--end c-tabs__panel-->
+					</div><!--end c-tabs__panel-->
 
 
-						<div class="c-tabs__panel js-tabs-panel" id="angular-{{ forloop.index }}">
+					<div class="c-tabs__panel js-tabs-panel" id="angular-{{ forloop.index }}">
 
-							<div class="pattern-code">
-								<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
-								<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">THIS IS ANGULAR CODE</code></pre>
-							</div>
+						<div class="pattern-code">
+							<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
+							<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">THIS IS ANGULAR CODE</code></pre>
+						</div>
 
-						</div><!--end c-tabs__panel-->
+					</div><!--end c-tabs__panel-->
 
-						<div class="c-tabs__panel js-tabs-panel" id="react-{{ forloop.index }}">
+					<div class="c-tabs__panel js-tabs-panel" id="react-{{ forloop.index }}">
 
-							<div class="pattern-code">
-								<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
-								<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">THIS IS REACT CODE</code></pre>
-							</div>
+						<div class="pattern-code">
+							<button class="c-btn pattern-code-copy-btn" data-clipboard-target="#pattern-code-{{ forloop.index }}">Copy</button>
+							<pre class="highlight pattern-code-block"><code class="language-html" id="pattern-code-{{ forloop.index }}">THIS IS REACT CODE</code></pre>
+						</div>
 
-						</div><!--end c-tabs__panel-->
+					</div><!--end c-tabs__panel-->
 
-					</div><!-- end c-tabs__body-->
+				</div><!-- end c-tabs__body-->
 
-				</div><!-- end c-tabs -->
+			</div><!-- end c-tabs -->
+			{% endif %}
 
 			</li><!-- end c-tabs-list__item -->
+
 		{% endfor %}
 
 	</ul><!-- end c-tabs-list -->
@@ -147,57 +162,45 @@ layout: default
 
 	<div class="c-text-passage l-linelength-container">
 
-		<h3>When to use</h3>
-		<p>Use this pattern like this. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		  ea commodo consequat.</p>
-
-		<h3>When to consider alternatives</h3>
-		<p>Use this pattern like this. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		  ea commodo consequat.</p>
-
-		<h3>Accessibility considerations</h3>
-		<p>Use this pattern like this. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-		  ea commodo consequat.</p>
-
-		<h3>Learn more</h3>
-		<ul>
-		    <li><a href="#">Resource link #1</a></li>
-		    <li><a href="#">Resource link #2</a></li>
-		</ul>
+		{% include definition-list.html %}
 
 	</div><!-- end c-text-passage -->
 
-	<table class="c-table ">
+	<div class="c-table-container">
 
-		<thead class="c-table__header">
+		<table class="c-table ">
 
-			<tr class="c-table__header-row">
-			<th scope="col" class="c-table__header-cell ">Class Name</th>
-			<th scope="col" class="c-table__header-cell ">Description</th>
-			</tr><!-- c-table__header-row -->
+			<thead class="c-table__header">
 
-		</thead><!-- end c-table__header -->
+				<tr class="c-table__header-row">
+				<th scope="col" class="c-table__header-cell ">Class Name</th>
+				<th scope="col" class="c-table__header-cell ">Description</th>
+				</tr><!-- c-table__header-row -->
 
-		<tbody class="c-table__body ">
-			{% for class in page.classes %}
+			</thead><!-- end c-table__header -->
 
-			<tr class="c-table__row ">
+			<tbody class="c-table__body ">
+				{% for class in page.classes %}
 
-				<td class="c-table__cell ">
-					{{ class.className }}
-				</td>
+				<tr class="c-table__row ">
 
-				<td class="c-table__cell ">
-					{% capture desc %}{{ class.description }}{% endcapture %}
-					{% if class.description %}{{ desc | markdownify }}{% endif %}
-				</td>
+					<td class="c-table__cell ">
+						{{ class.className }}
+					</td>
 
-			</tr><!-- end c-table__row -->
-			{% endfor %}
+					<td class="c-table__cell ">
+						{% capture desc %}{{ class.description }}{% endcapture %}
+						{% if class.description %}{{ desc | markdownify }}{% endif %}
+					</td>
 
-		</tbody><!-- end c-table__body -->
+				</tr><!-- end c-table__row -->
+				{% endfor %}
 
-	</table><!--end c-table-->
+			</tbody><!-- end c-table__body -->
+
+		</table><!--end c-table-->
+
+	</div><!--end c-table-container-->
 
 </section><!-- end c-section -->
 
@@ -210,12 +213,13 @@ layout: default
 	</div><!-- end c-section-header -->
 
 	<div class="c-text-passage l-linelength-container">
+		{% for print in page.fine-print %}
         <ul>
-            <li>Version: 0.3</li>
-            <li>Last updated: April 27, 2017</li>
-            <li>Owner: <a href="#">Jane Doe</a></li>
-            <li><a href="#">Change history</a></li>
+            <li>Version: {{ print.version }}</li>
+            <li>Last Updated: {{ print.update }}</li>
+            <li>Owner: <a href="#">{{ print.owner }}</a></li>
         </ul>
+		{% endfor %}
 	</div><!-- end c-text-passage -->
 
 	<a href="#" class="c-btn">Discuss this component</a><!-- end c-btn -->
